@@ -1,3 +1,3 @@
 output "greeting" {
-    value = "Hello Terraform."
+  value = "Hello Terraform."
 }
