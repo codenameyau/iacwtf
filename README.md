@@ -14,7 +14,9 @@ aws s3 ls
 ```
 
 ### Notes
-Terraform creates 10 resources in parallel.
+- Terraform creates 10 resources in parallel.
+- Followed `hello_terraform`, `hcl`, `app`, `module`.
+- app contains real world lambda app with file structure.
 
 ### Commands
 
@@ -35,4 +37,7 @@ $ terraform apply
 $ terraform state list
 $ terraform output
 $ terraform fmt
+
+# Useful
+terraform console
 ```

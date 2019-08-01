@@ -7,9 +7,6 @@ provider "aws" {
   region  = "us-east-1"
 }
 
-
-
-/*
 data "archive_file" "src" {
   type        = "zip"
   source_file = "${path.module}/lambda.py"
@@ -129,4 +126,3 @@ resource "aws_api_gateway_deployment" "deployment" {
   rest_api_id = aws_api_gateway_rest_api.api.id
   stage_name  = "test"
 }
-*/

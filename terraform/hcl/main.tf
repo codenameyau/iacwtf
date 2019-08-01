@@ -100,6 +100,86 @@ output "comparison" {
   value = "${local.gt} ${local.gte} ${local.lt} ${local.lte} ${local.eq} ${local.neq}"
 }
 
+
+#Functions
+# Terraform has 100+ built in functions (but no ability to define custom functions!)
+# https://www.terraform.io/docs/configuration/functions.html
+# The syntax for a function call is <function_name>(<arg1>, <arg2>).
+locals {
+  //Date and Time
+  ts = timestamp() //Returns the current date and time.
+  current_month = formatdate("MMMM", local.ts)
+  tomorrow = formatdate("DD", timeadd(local.ts, "24h"))
+}
+
+output "date_time" {
+  value = "${local.current_month} ${local.tomorrow}"
+}
+
+locals {
+  lcase = "${lower("A mixed case String")}"
+  ucase = "${upper("a lower case string")}"
+  trimmed = "${trimspace(" A string with leading and trailing spaces    ")}"
+  formatted = "${format("Hello %s", "World")}"
+  formatted_list = "${formatlist("Hello %s", ["John", "Paul", "George", "Ringo"])}"
+}
+
+output "string_functions" {
+  value = local.formatted_list
+}
+
+#Iteration: via list comprehension
+locals {
+  l = ["one", "two", "three"]
+  upper_list = [for item in local.l: upper(item)]
+  upper_map  = {for item in local.l: item => upper(item)}
+}
+
+output "iterations" {
+  value = local.upper_list
+}
+
+# Filtering
+# The `for` syntax can also take an `if` clause.
+locals {
+  n = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  evens = [for i in local.n: i if i % 2 == 0]
+}
+
+output "filtered"{
+  value = local.evens
+}
+
+# #Directives and Heredocs
+# # HCL supports more complex string templating that can be used to generate
+# # full descriptive paragraphs too.
+# output "heredoc" {
+#   value = <<-EOT
+#     This is called a `heredoc`.  It's a string literal
+#     that can span multiple lines.
+#   EOT
+# }
+
+# output "directive" {
+#   value = <<-EOT
+#     This is a `heredoc` with directives.
+#     %{ if local.person.name == "" }
+#     Sorry, I don't know your name.
+#     %{ else }
+#     Hi ${local.person.name}
+#     %{ endif }
+#   EOT
+# }
+
+# output "iterated" {
+#   value = <<-EOT
+#   Directives can also iterate...
+#   %{ for number in local.evens }
+#   ${number} is even.
+#   %{ endfor }
+# EOT
+# }
+
 # resource "aws_s3_bucket" "bucket-lol" {
 # }
 # resource "aws_s3_bucket" "bit-bucket" {
